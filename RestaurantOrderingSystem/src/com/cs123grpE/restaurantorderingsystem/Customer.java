@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -166,6 +167,8 @@ public class Customer extends Activity {
 	
 	public void viewCart (View v) {
 		// go to cart screen
+		Intent i = new Intent (this, Cart.class);
+		startActivity (i);
 	}
 	
 	public void generateMenu(String with, boolean in) {

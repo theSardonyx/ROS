@@ -1,25 +1,24 @@
 package com.cs123grpE.restaurantorderingsystem;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class SelectAccount extends Activity {
+public class Cart extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_select_account);
+		setContentView(R.layout.activity_cart);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.select_account, menu);
+		getMenuInflater().inflate(R.menu.cart, menu);
 		return true;
 	}
 
@@ -35,28 +34,8 @@ public class SelectAccount extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void onBackPressed() {
-		// disables the back button
-	}
-	
-	public void toAdmin (View v) {
-		// go to the Admin account main screen
-		Intent i = new Intent (this, Admin.class);
-		startActivity(i);
-		finish();
-	}
-	
-	public void toKitchen (View v) {
-		// go to the Kitchen account main screen
-		Intent i = new Intent (this, Kitchen.class);
-		startActivity(i);
-		finish();
-	}
-	
-	public void toCustomer (View v) {
-		// go to the Customer account main screen
-		Intent i = new Intent (this, Customer.class);
-		startActivity(i);
-		finish();
+	public void finalize (View v) {
+		// Send cart contents to kitchen and clear
+		Toast.makeText(this, "Orders finalized.", Toast.LENGTH_SHORT).show();
 	}
 }
