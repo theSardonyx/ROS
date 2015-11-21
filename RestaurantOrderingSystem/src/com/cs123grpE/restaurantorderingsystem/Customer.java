@@ -102,6 +102,10 @@ public class Customer extends Activity {
 					order.put("quantity", 1);
 					order.saveInBackground();
 					
+					Intent i = new Intent(getApplicationContext(), ViewProfile.class);
+					i.putExtra("menu_name", name);
+					startActivity(i);
+					
 				}catch(Exception e) {}
 				
 				

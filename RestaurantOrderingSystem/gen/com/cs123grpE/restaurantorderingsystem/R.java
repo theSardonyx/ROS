@@ -29,11 +29,11 @@ public final class R {
         public static final int prelimlogo=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f080035;
+        public static final int action_settings=0x7f080036;
         public static final int btnAddMenu=0x7f080016;
-        public static final int btnAddToCart=0x7f080032;
+        public static final int btnAddToCart=0x7f080033;
         public static final int btnAdmin=0x7f080029;
-        public static final int btnBack=0x7f080031;
+        public static final int btnBack=0x7f080032;
         public static final int btnCancel=0x7f080026;
         public static final int btnCart=0x7f080012;
         public static final int btnConfigure=0x7f080007;
@@ -61,8 +61,9 @@ public final class R {
         public static final int listview1=0x7f08000e;
         public static final int logo=0x7f080003;
         public static final int logout=0x7f08002c;
-        public static final int textView00=0x7f080033;
-        public static final int textView01=0x7f080034;
+        public static final int priceName=0x7f08002e;
+        public static final int textView00=0x7f080034;
+        public static final int textView01=0x7f080035;
         public static final int textView1=0x7f080018;
         public static final int textView2=0x7f08001a;
         public static final int textView3=0x7f080028;
@@ -72,10 +73,10 @@ public final class R {
         public static final int textView7=0x7f080024;
         public static final int textView8=0x7f080004;
         public static final int textView9=0x7f08000b;
-        public static final int tvDesc=0x7f08002f;
+        public static final int tvDesc=0x7f080030;
         public static final int tvName=0x7f08002d;
-        public static final int tvPrice=0x7f08002e;
-        public static final int tvTags=0x7f080030;
+        public static final int tvPrice=0x7f08002f;
+        public static final int tvTags=0x7f080031;
         public static final int txtItemName=0x7f080000;
         public static final int txtPass=0x7f08001b;
         public static final int txtPass2=0x7f080025;

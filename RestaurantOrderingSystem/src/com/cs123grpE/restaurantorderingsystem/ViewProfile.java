@@ -1,17 +1,44 @@
 package com.cs123grpE.restaurantorderingsystem;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import com.parse.*;
 
 public class ViewProfile extends Activity {
+	
+	String itemname = "";
+	String description = "";
+	String tags = "";
+	double price = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_profile);
+		
+		Intent i = getIntent();
+		String name = i.getStringExtra("menu_name");
+		ParseObject x = null;
+		try{
+			x = (new ParseQuery("Menu_Item")).whereMatches("item_name", name).getFirst();
+			itemname = x.getString("item_name");
+			description = x.getString("item_desc");
+			//tags = x.getString("item_ingridients");
+			price = x.getDouble("item_price");
+		}catch(Exception e) {}
+		
+		TextView ax = (TextView) findViewById (R.id.tvName);
+		TextView bx = (TextView) findViewById (R.id.priceName);
+		TextView cx = (TextView) findViewById (R.id.tvDesc);
+		ax.setText(itemname);
+		bx.setText(Double.toString(price));
+		cx.setText(description);
 	}
 
 	@Override
