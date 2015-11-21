@@ -51,6 +51,7 @@ public class AddEditProfile extends Activity {
 		EditText price = (EditText) findViewById (R.id.txtPrice);
 		EditText des = (EditText) findViewById (R.id.txtDescription);
 		EditText tag = (EditText) findViewById (R.id.txtIngredients);
+		EditText cat = (EditText) findViewById (R.id.txtCategory);
 		
 		
 		Toast.makeText (this, "Item is added to menu.", Toast.LENGTH_SHORT).show();
