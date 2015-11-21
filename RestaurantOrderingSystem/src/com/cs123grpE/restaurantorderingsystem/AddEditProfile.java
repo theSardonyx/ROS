@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.parse.*;
 
 public class AddEditProfile extends Activity {
 
@@ -49,10 +50,19 @@ public class AddEditProfile extends Activity {
 		
 		EditText nm = (EditText) findViewById (R.id.txtItemName);
 		EditText price = (EditText) findViewById (R.id.txtPrice);
-		EditText des = (EditText) findViewById (R.id.txtDescription);
+		EditText desc = (EditText) findViewById (R.id.txtDescription);
 		EditText tag = (EditText) findViewById (R.id.txtIngredients);
 		EditText cat = (EditText) findViewById (R.id.txtCategory);
 		
+		ParseObject menuitem = new ParseObject("Menu_Item");
+		menuitem.put("item_name", nm.getText().toString());
+		menuitem.put("item_price", Double.parseDouble(price.getText().toString()));
+		menuitem.put("item_desc", desc.getText().toString());
+		menuitem.put("category", cat.getText().toString());
+		//menuitem.put("active", Boolean.valueOf(act.getText().toString()));
+		//menuitem.put("active_from", act_from);
+		//menuitem.put("active_until", act_until);
+		menuitem.saveInBackground();
 		
 		Toast.makeText (this, "Item is added to menu.", Toast.LENGTH_SHORT).show();
 		finish();
