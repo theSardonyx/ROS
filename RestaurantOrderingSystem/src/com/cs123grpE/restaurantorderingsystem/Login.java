@@ -1,6 +1,6 @@
 package com.cs123grpE.restaurantorderingsystem;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,43 +21,58 @@ public class Login extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         
+        /*ParseObject ingr = new ParseObject("Ingredient");
+        ingr.put("ingredient_name", "Meat");
+        ingr.saveInBackground();
+        
+        ParseObject ingr2 = new ParseObject("Ingredient");
+        ingr2.put("ingredient_name", "Fish");
+        ingr2.saveInBackground();
+        
+        ParseObject ingr3 = new ParseObject("Ingredient");
+        ingr3.put("ingredient_name", "Soup");
+        ingr3.saveInBackground();
+        */
+        
         /*
         ParseObject crispyPata = new ParseObject("Menu_Item");
         crispyPata.put("item_name", "Crispy Pata");
-        crispyPata.put("item_price", 100.00);
+        crispyPata.put("item_price", 100.50);
+        crispyPata.put("item_desc", "The crispiest of patas");
         crispyPata.saveInBackground();
         
+
         ParseObject aduba = new ParseObject("Menu_Item");
         aduba.put("item_name", "Aduba");
         aduba.put("item_price", 103.00);
+        aduba.put("item_desc", "Doo bi doo bi doo aduba doo");
         aduba.saveInBackground();
-
+        
+        
         ParseObject pataatim = new ParseObject("Menu_Item");
         pataatim.put("item_name", "Pataatim");
-        pataatim.put("item_price", 102.00);
+        pataatim.put("item_price", 90.00);
+        pataatim.put("item_desc", "Mitaatap");
         pataatim.saveInBackground();
-
+        
         ParseObject sinigang = new ParseObject("Menu_Item");
         sinigang.put("item_name", "Sinigang");
-        sinigang.put("item_price", 101.00);
+        sinigang.put("item_price", 150.00);
+        sinigang.put("item_desc", "The sins of you and your friends");
         sinigang.saveInBackground();
-
+        
         ParseObject cns = new ParseObject("Menu_Item");
         cns.put("item_name", "Chicken Noodle Soup");
         cns.put("item_price", 40.00);
+        cns.put("item_desc", "Get well soon!");
         cns.saveInBackground();
-        
+
         ParseObject birdsnest = new ParseObject("Menu_Item");
         birdsnest.put("item_name", "Bird's Nest Soup");
-        birdsnest.put("item_price", 40.00);
+        birdsnest.put("item_price", 35.00);
+        birdsnest.put("item_desc", "With bird included");
         birdsnest.saveInBackground();
-
-        ParseObject paksiw = new ParseObject("Menu_Item");
-        paksiw.put("item_name", "Paksiw");
-        paksiw.put("item_price", 80.00);
-        paksiw.saveInBackground();
         */
-        
         
         // check for saved preferences, populate the fields
         list = getSharedPreferences("Users", Context.MODE_PRIVATE);
