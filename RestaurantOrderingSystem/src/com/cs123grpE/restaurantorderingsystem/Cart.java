@@ -38,4 +38,5 @@ public class Cart extends Activity {
 		// Send cart contents to kitchen and clear
 		Toast.makeText(this, "Orders finalized.", Toast.LENGTH_SHORT).show();
 	}
+	
 }

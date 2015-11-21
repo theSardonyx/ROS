@@ -29,16 +29,18 @@ public class ViewProfile extends Activity {
 			x = (new ParseQuery("Menu_Item")).whereMatches("item_name", name).getFirst();
 			itemname = x.getString("item_name");
 			description = x.getString("item_desc");
-			//tags = x.getString("item_ingridients");
+			tags = x.getString("ingridient_name");
 			price = x.getDouble("item_price");
 		}catch(Exception e) {}
 		
 		TextView ax = (TextView) findViewById (R.id.tvName);
 		TextView bx = (TextView) findViewById (R.id.priceName);
 		TextView cx = (TextView) findViewById (R.id.tvDesc);
+		TextView dx = (TextView) findViewById (R.id.tvTags);
 		ax.setText(itemname);
 		bx.setText(Double.toString(price));
 		cx.setText(description);
+		dx.setText(tags);
 	}
 
 	@Override

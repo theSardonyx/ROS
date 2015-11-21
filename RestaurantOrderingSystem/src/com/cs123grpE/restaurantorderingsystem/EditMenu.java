@@ -124,10 +124,6 @@ public class EditMenu extends Activity {
 		Toast.makeText(this, "You will delete a Menu Item.", Toast.LENGTH_SHORT).show();
 	}
 	
-	public void onResume() {
-		// refresh menu list
-	}
-	
 	private void prepareListData() {
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
