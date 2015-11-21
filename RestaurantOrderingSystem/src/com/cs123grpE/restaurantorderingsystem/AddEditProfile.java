@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class AddEditProfile extends Activity {
@@ -45,6 +46,13 @@ public class AddEditProfile extends Activity {
 	
 	public void save (View v) {
 		// do stuff to save fields
+		
+		EditText nm = (EditText) findViewById (R.id.txtItemName);
+		EditText price = (EditText) findViewById (R.id.txtPrice);
+		EditText des = (EditText) findViewById (R.id.txtDescription);
+		EditText tag = (EditText) findViewById (R.id.txtIngredients);
+		
+		
 		Toast.makeText (this, "Item is added to menu.", Toast.LENGTH_SHORT).show();
 		finish();
 	}
