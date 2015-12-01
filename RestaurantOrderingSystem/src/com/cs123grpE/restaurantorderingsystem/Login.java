@@ -62,7 +62,7 @@ public class Login extends Activity {
         // check for saved preferences, populate the fields
         list = getSharedPreferences("Users", Context.MODE_PRIVATE);
         if (!list.contains("nutzlich")) {
-        	Toast.makeText(this, "NO USERS", Toast.LENGTH_LONG).show();
+        	//Toast.makeText(this, "NO USERS", Toast.LENGTH_LONG).show();
         }
         EditText user = (EditText) findViewById (R.id.txtUser);
         EditText pass = (EditText) findViewById (R.id.txtPass);
@@ -114,7 +114,7 @@ public class Login extends Activity {
     	try {
     	//array = convert(list.getString("nutzlich", null));
     	if ((username.length() == 0 && password.length() == 0)) {
-    		Toast.makeText(this, "No User", Toast.LENGTH_SHORT).show();
+    		//Toast.makeText(this, "No User", Toast.LENGTH_SHORT).show();
     	} 
     	else {
     		// check if inputed values exist in list
