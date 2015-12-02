@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 public class AddEditProfile extends Activity {
 	private String mode;
 	private ParseObject obj;
@@ -26,7 +27,7 @@ public class AddEditProfile extends Activity {
 		mode = i.getStringExtra("mode");
 		if(mode.equals("Edit")) {
 			String name = i.getStringExtra("object");
-			obj = findMenuItem(name);
+			obj = Helper.findObject("Menu_Item", name);
 			fillInText();
 		}
 	}
@@ -82,14 +83,14 @@ public class AddEditProfile extends Activity {
 		EditText cat = (EditText) findViewById (R.id.txtCategory);
 			
 		if(mode.equals("Add")) {
-			addMenuItem(nm.getText().toString(), Double.parseDouble(price.getText().toString()), 
+			Helper.addMenuItem(nm.getText().toString(), Double.parseDouble(price.getText().toString()), 
 						des.getText().toString(), tag.getText().toString(), cat.getText().toString());
 	
 			Toast.makeText (this, "Item is added to menu.", Toast.LENGTH_SHORT).show();
 			finish();
 		}
 		else {
-			editMenuItem(obj, nm.getText().toString(), Double.parseDouble(price.getText().toString()), 
+			Helper.editMenuItem(obj, nm.getText().toString(), Double.parseDouble(price.getText().toString()), 
 					des.getText().toString(), tag.getText().toString(), cat.getText().toString());
 
 			Toast.makeText (this, "Item is edited.", Toast.LENGTH_SHORT).show();
@@ -99,45 +100,6 @@ public class AddEditProfile extends Activity {
 		
 	}
 	
-	private void addMenuItem(String name, double price, String desc, String tag, String cat) {
-		ParseObject item = new ParseObject("Menu_Item");
-		item.put("item_name", name);
-		item.put("item_price", price);
-		item.put("item_desc", desc);
-		item.put("active", true);
-		item.put("category", cat);
-		item.saveInBackground();
-	}
-	private void editMenuItem(ParseObject item, String name, double price, String desc, String tag, String cat) {
-		item.put("item_name", name);
-		item.put("item_price", price);
-		item.put("item_desc", desc);
-		item.put("active", true);
-		item.put("category", cat);
-		item.saveInBackground();
-	}
-	
-	private ParseObject findMenuItem(String nameOfItem) {
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Menu_Item").whereMatches("item_name", nameOfItem);
-
-		List<ParseObject> list = null;
-		try {
-			list = query.find();
-		} catch(Exception e) {}
-		
-		for(ParseObject a: list) {
-			if(isActive(a)) return a;
-		}
-		
-		return null;
-	}
-	
-	private boolean isActive(ParseObject p) {
-		// Date currDate = Calendar.getInstance().getTime();
-		// Date activeFrom = (Date) p.get("active_from");
-		// Date activeUntil = (Date) p.get("active_from");
-		return p.getBoolean("active");
-	}
 	
 	public void onBackPressed() {
 		// go back to the menu
