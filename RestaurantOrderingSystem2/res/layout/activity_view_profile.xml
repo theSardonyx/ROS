@@ -123,6 +123,11 @@
                 android:text="Back"
                 android:layout_marginRight="@dimen/button_spacing"
                 android:onClick="back" />
+
+            <NumberPicker
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+    			android:layout_height="200dp"  />
          
             <Button
                 android:id="@+id/btnAddToCart"

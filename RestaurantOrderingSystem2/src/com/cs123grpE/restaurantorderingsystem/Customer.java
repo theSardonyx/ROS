@@ -32,13 +32,16 @@ public class Customer extends Activity {
     List<String> listDataHeader;
     List<String> listDataHeaderId;
     HashMap<String, List<String>> listDataChild;
+    HashMap<String, List<ParseObject>> listDataChildObject;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customer);
 		
-		generateMenu("", true);
+		prepareLists();
+		
+		//generateMenu("", true);
 		
 		ListView lv = (ListView)findViewById(R.id.listview1);
 		lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu));
@@ -151,14 +154,14 @@ public class Customer extends Activity {
 		EditText searchString = (EditText) findViewById (R.id.txtSearch);
 		String criteria = searchString.getText().toString().trim();
 		
-		generateMenu(criteria, false);
+		//generateMenu(criteria, false);
 	}
 	
 	public void filterOn (View v) {
 		// toggle to filter items with specified item from item list
 		EditText searchString = (EditText) findViewById (R.id.txtSearch);
 		String criteria = searchString.getText().toString().trim();
-		generateMenu(criteria, true);
+		//generateMenu(criteria, true);
 	}
 	
 	public void search (View v) {
@@ -175,98 +178,131 @@ public class Customer extends Activity {
 		startActivity (i);
 	}
 	
-	public void generateMenu(String with, boolean in) {
+	private void prepareLists() {
+		prepareListData();
 		
-		listDataHeader = new ArrayList<String>();
-		listDataHeaderId = new ArrayList<String>();
-		listDataChild = new HashMap<String, List<String>>();
-
-		getHeaders(with, in);
-		getChildren();
+		ListView lv = (ListView)findViewById(R.id.listview1);
+		lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu));
 		
 		exp = (ExpandableListView)findViewById(R.id.list);
 		
-		//prepareListData();
-		
 		epa = new ExpandableAdapter(this, listDataHeader, listDataChild);
-		
+			
 		exp.setAdapter(epa);
-	}
-	
-	public void getHeaders(String with, boolean in) {
-		ParseQuery<ParseObject> pq = new ParseQuery("Ingredient");
-		List<ParseObject> l = null; 
-		try{
-			l = pq.find();
-		} catch(Exception e) {}
 		
-		for(ParseObject po: l) {
-			String name = (String) po.get("ingredient_name");
-			if(!with.equals("")) {
-				if(in && name.equals("with")) {
-					listDataHeader.add(name);
-					listDataHeaderId.add(po.getObjectId());
-					listDataChild.put(name, new ArrayList<String>());
-				}
-				else {
-					if(name.equals("with")) continue;
-					listDataHeader.add(name);
-					listDataHeaderId.add(po.getObjectId());
-					listDataChild.put(name, new ArrayList<String>());
-				}
-			}
-			else {
-				listDataHeader.add(name);
-				listDataHeaderId.add(po.getObjectId());
-				listDataChild.put(name, new ArrayList<String>());
-			}
-		}
-	}
+		exp.setOnGroupClickListener(new OnGroupClickListener() {
 	
-	public void getChildren() {
-		ParseQuery<ParseObject> pq = new ParseQuery<ParseObject>("Menu_Item");
-		List<String> tempFood = new ArrayList<String>();
-		List<ParseObject> list = null;
-		try {
-			list = pq.find();
-		} catch(Exception e) {}
-		
-		for(ParseObject po: list) {
-			String name = (String)po.get("item_name");
-			String ingr = (String)po.get("ingredient_name");
-			if(listDataHeader.contains(ingr))
-				listDataChild.get(ingr).add(name);
-		}
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v,
+					int groupPosition, long id) {
+				// Toast.makeText(getApplicationContext(),
+				// "Group Clicked " + listDataHeader.get(groupPosition),
+				// Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		});
+	
+		// Listview Group expanded listener
+		exp.setOnGroupExpandListener(new OnGroupExpandListener() {
+	
+			@Override
+			public void onGroupExpand(int groupPosition) {
+				Toast.makeText(getApplicationContext(),
+						listDataHeader.get(groupPosition) + " Expanded",
+						Toast.LENGTH_SHORT).show();
+			}
+		});
+	
+		// Listview Group collasped listener
+		exp.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+	
+			@Override
+			public void onGroupCollapse(int groupPosition) {
+				Toast.makeText(getApplicationContext(),
+						listDataHeader.get(groupPosition) + " Collapsed",
+						Toast.LENGTH_SHORT).show();
+	
+			}
+		});
+	
+		// Listview on child click listener
+		exp.setOnChildClickListener(new OnChildClickListener() {
+	
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				// TODO Auto-generated method stub
+
+				//editMenu(listDataHeader.get(groupPosition), childPosition);
+				
+				String cat = listDataHeader.get(groupPosition);
+				String name = ((String) ( (ParseObject) listDataChildObject.get(cat).get(childPosition)).get("item_name"));
+				
+				Intent i = new Intent(getApplicationContext(), ViewProfile.class);
+					i.putExtra("menu_name", name);
+					startActivity(i);
+				
+				Toast.makeText(getApplicationContext(),
+					listDataHeader.get(groupPosition)
+					+ " : "
+					+ listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT)
+					.show();
+				return false;
+			}
+		});
 	}
 	
 	private void prepareListData() {
 		listDataHeader = new ArrayList<String>();
+		listDataChild = new HashMap<String, List<String>>();
+		listDataChildObject = new HashMap<String, List<ParseObject>>();
+
+		// Adding child data
+		ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Category");
+		List<ParseObject> listHeaders = null;
+		try {
+			listHeaders = query1.find();
+		} catch(Exception e) {}
 		
-		// Adding child data
-		listDataHeader.add("MEAT");
-		listDataHeader.add("SOUP");
-		listDataHeader.add("FISH");
+		for(ParseObject x: listHeaders) {
+			listDataHeader.add((String)x.get("category_name"));
+		}
+		
+		int n = listDataHeader.size();
 
 		// Adding child data
-		List<String> top250 = new ArrayList<String>();
-		top250.add("CRISPY PATA");
-		top250.add("ADUBA");
-		top250.add("PATAATIM");
-		top250.add("SINIGANG");
+		for(int i = 0; i < n; i++) {
+			String s = listDataHeader.get(i);
+			ParseObject obj = listHeaders.get(i);
+			List<String> list = new ArrayList<String>();
+			List<ParseObject> listObject = new ArrayList<ParseObject>();
+			
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("Menu_Item").whereEqualTo("category", obj);
+			
+			
+			List<ParseObject> matches = null;
+			
+			try {
+				matches = query.find();
+			} catch(Exception e) {}
 
-		List<String> nowShowing = new ArrayList<String>();
-		nowShowing.add("CHICKEN NOODLE SOUP");
-		nowShowing.add("SINIGANG SA MISO");
-		nowShowing.add("SPINACH");
-		nowShowing.add("BIRD'S NEST");
+			for(ParseObject a: matches) {
+				// if(isActive(a)) {
+					list.add((String) a.get("item_name"));
+					listObject.add(a);
+				// }
+			}
+			listDataChild.put(s, list);
+			listDataChildObject.put(s, listObject);
+		}
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    super.onActivityResult(requestCode, resultCode, getIntent());
+	    if(resultCode==RESULT_OK && requestCode==1){
+	        System.out.println("RESULT :D");
+	    }
 
-		List<String> comingSoon = new ArrayList<String>();
-		comingSoon.add("TALAKITOK");
-		comingSoon.add("PAKSIW");
-		comingSoon.add("ESCABECHE");
-
-		listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-		listDataChild.put(listDataHeader.get(1), nowShowing);
-		listDataChild.put(listDataHeader.get(2), comingSoon);
+		prepareLists();
 	}
 }

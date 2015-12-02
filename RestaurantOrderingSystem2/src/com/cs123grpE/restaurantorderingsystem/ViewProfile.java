@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.*;
 
@@ -16,21 +19,28 @@ public class ViewProfile extends Activity {
 	String description = "";
 	String tags = "";
 	double price = 0;
+	ParseObject obj;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_profile);
 		
+		NumberPicker np = (NumberPicker) findViewById(R.id.quantity);
+		np.setMinValue(1);
+	    np.setMaxValue(20);
+	    np.setWrapSelectorWheel(true);
+	    np.setValue(1);
+		
 		Intent i = getIntent();
 		String name = i.getStringExtra("menu_name");
-		ParseObject x = null;
+		obj = null;
 		try{
-			x = (new ParseQuery("Menu_Item")).whereMatches("item_name", name).getFirst();
-			itemname = x.getString("item_name");
-			description = x.getString("item_desc");
-			tags = x.getString("ingridient_name");
-			price = x.getDouble("item_price");
+			obj = (new ParseQuery("Menu_Item")).whereMatches("item_name", name).getFirst();
+			itemname = obj.getString("item_name");
+			description = obj.getString("item_desc");
+			tags = obj.getString("ingredient_name");
+			price = obj.getDouble("item_price");
 		}catch(Exception e) {}
 		
 		TextView ax = (TextView) findViewById (R.id.tvName);
@@ -69,6 +79,17 @@ public class ViewProfile extends Activity {
 	
 	public void addToCart (View v) {
 		// add selected item to Cart
+		
+		NumberPicker np = (NumberPicker) findViewById(R.id.quantity);
+		int qty = np.getValue();
+		
+		Helper.addOrder(obj, 0, qty); // change table num
+		
+		Toast.makeText(getApplicationContext(),
+			"Ordered " + qty + " " + itemname,
+			Toast.LENGTH_SHORT).show();
+		
+		finish();
 	}
 	
 	public void onBackPressed() {

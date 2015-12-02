@@ -77,4 +77,12 @@ public class Helper {
 		return p;
 	}
 	
+	public static void addOrder(ParseObject item, int table_num, int qty) {
+		ParseObject order = new ParseObject("Order");
+		order.put("item_id", item);
+		//order.put("table_id", table_num); // get pointer
+		order.put("quantity", qty);
+		order.saveInBackground();
+	}
+	
 }
