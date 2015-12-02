@@ -78,7 +78,30 @@ public class EditMenu extends Activity {
 		
 	}
 	
-	
+	private ParseObject findMenuItem(String nameOfItem) {
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Menu_Item").whereMatches("item_name", nameOfItem);
+
+		List<ParseObject> list = null;
+		try {
+			list = query.find();
+		} catch(Exception e) {}
+		
+		for(ParseObject a: list) {
+			if(isActive(a)) return a;
+		}
+		
+		return null;
+	}
+
+	private boolean isActive(ParseObject p) {
+		// Date currDate = Calendar.getInstance().getTime();
+		// Date activeFrom = (Date) p.get("active_from");
+		// Date activeUntil = (Date) p.get("active_from");
+		return p.getBoolean("active");
+	}
+
+
+
 	private void prepareLists() {
 		prepareListData();
 		
@@ -149,45 +172,43 @@ public class EditMenu extends Activity {
 		listDataChildObject = new HashMap<String, List<ParseObject>>();
 
 		// Adding child data
-		ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Category");
-		List<ParseObject> listHeaders = null;
-		try {
-			listHeaders = query1.find();
-		} catch(Exception e) {}
-		
-		for(ParseObject x: listHeaders) {
-			listDataHeader.add((String)x.get("category_name"));
-		}
-		
+		listDataHeader.add("Appetizer");
+		listDataHeader.add("Main");
+		listDataHeader.add("Dessert");
+		listDataHeader.add("Beverage");
 		int n = listDataHeader.size();
-
+		
 		// Adding child data
 		for(int i = 0; i < n; i++) {
 			String s = listDataHeader.get(i);
-			ParseObject obj = listHeaders.get(i);
 			List<String> list = new ArrayList<String>();
 			List<ParseObject> listObject = new ArrayList<ParseObject>();
-			
-			ParseQuery<ParseObject> query = ParseQuery.getQuery("Menu_Item").whereEqualTo("category", obj);
-			
-			
-			//gameQuery.whereEqualTo("cate", ParseUser.getCurrentUser());
-			
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("Menu_Item").whereMatches("category", s);
 			List<ParseObject> matches = null;
 			
 			try {
 				matches = query.find();
 			} catch(Exception e) {}
-
+			
 			for(ParseObject a: matches) {
-				// if(isActive(a)) {
+				//if(isActive(a)) {
 					list.add((String) a.get("item_name"));
 					listObject.add(a);
-				// }
+				//}
 			}
 			listDataChild.put(s, list);
 			listDataChildObject.put(s, listObject);
 		}
+	}
+	
+	private void addMenuItem(String name, double price, String desc, String tag, String cat) {
+		ParseObject item = new ParseObject("Menu_Item");
+		item.put("item_name", name);
+		item.put("item_price", price);
+		item.put("item_desc", desc);
+		item.put("active", true);
+		item.put("category", cat);
+		item.saveInBackground();
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
