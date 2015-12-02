@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest android:versionCode="1" android:versionName="1.0"
+    package="com.cs123grpE.restaurantorderingsystem" xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <application android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:screenOrientation="landscape" android:theme="@style/AppTheme">
+        <activity android:label="@string/app_name" android:name=".Login"/>
+        <activity android:label="@string/title_activity_select_account" android:name=".SelectAccount"/>
+        <activity android:label="@string/title_activity_register" android:name=".Register"/>
+        <activity android:label="@string/title_activity_settings" android:name=".Settings"/>
+        <activity android:label="@string/title_activity_admin" android:name=".Admin"/>
+        <activity android:label="@string/title_activity_customer" android:name=".Customer"/>
+        <activity android:label="@string/title_activity_edit_bill" android:name=".EditBill"/>
+        <activity android:label="@string/title_activity_edit_menu" android:name=".EditMenu"/>
+        <activity
+            android:label="@string/title_activity_add_edit_profile" android:name=".AddEditProfile"/>
+        <activity android:label="@string/title_activity_view_profile" android:name=".ViewProfile"/>
+        <activity android:label="@string/app_name" android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/title_activity_cart" android:name=".Cart"/>
+        <activity android:label="@string/title_activity_kitchen" android:name=".Kitchen"/>
+        <!--created by ADT ext plugin at 2015-12-02 23:40:55-->
+        <activity android:name=".KitchenAdapter"/>
+        <!--created by ADT ext plugin at 2015-12-02 23:42:23-->
+        <activity android:name=".OrderModel"/>
+    </application>
+</manifest>
