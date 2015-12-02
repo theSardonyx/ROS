@@ -29,7 +29,7 @@ public class Kitchen extends Activity {
          setListData();
           
          Resources res =getResources();
-         lv= ( ListView )findViewById( R.id.listKitchen );  // List defined in XML ( See Below )
+         lv= ( ListView )findViewById( R.id.list );  // List defined in XML ( See Below )
           
          /**************** Create Custom Adapter *********/
          adapter=new KitchenAdapter( CustomListView, CustomListViewValuesArr,res );
