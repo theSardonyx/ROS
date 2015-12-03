@@ -1,4 +1,4 @@
-package com.cs123grpE.restaurantorderingsystem;
+package com.cs123grpE.restaurantorderingsystem	;
 
 import java.util.ArrayList;
 
@@ -8,14 +8,20 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Kitchen extends Activity {
 	
 	ListView lv;
-	KitchenAdapter adapter;
-	 public  Kitchen CustomListView = null;
+	//KitchenAdapter adapter;
+	 //public  Kitchen CustomListView = this;
      public  ArrayList<OrderModel> CustomListViewValuesArr = new ArrayList<OrderModel>();
 
 	@Override
@@ -23,17 +29,39 @@ public class Kitchen extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_kitchen);
 		
-		 CustomListView = this;
          
          /******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
          setListData();
-          
-         Resources res =getResources();
-         lv= ( ListView )findViewById( R.id.list );  // List defined in XML ( See Below )
+         //Resources res = getResources();
+         lv = ( ListView )findViewById( R.id.listKitchen );  
           
          /**************** Create Custom Adapter *********/
-         adapter=new KitchenAdapter ( CustomListView, CustomListViewValuesArr,res );
-         lv.setAdapter( adapter );
+        // adapter=new KitchenAdapter( CustomListView, CustomListViewValuesArr,res );
+         //lv.setAdapter( new ArrayAdapter<OrderModel>(this, R.layout.menu_item, R.id.foodName, CustomListViewValuesArr));
+         @SuppressWarnings("unchecked")
+         final ArrayAdapter<OrderModel> adapter = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_2, android.R.id.text1, CustomListViewValuesArr) {
+        	  @Override
+        	  public View getView(int position, View convertView, ViewGroup parent) {
+        	    View view = super.getView(position, convertView, parent);
+        	    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+        	    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+        	    text1.setText(CustomListViewValuesArr.get(position).getFoodName());
+        	    text2.setText(CustomListViewValuesArr.get(position).getTableNumber());
+        	    return view;
+        	  }
+        	};
+         lv.setAdapter(adapter);
+         lv.setOnItemClickListener(new OnItemClickListener()
+         {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				CustomListViewValuesArr.remove(arg2);
+				adapter.notifyDataSetChanged();
+			}
+         });
+        // adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -62,7 +90,6 @@ public class Kitchen extends Activity {
 	
 	public void setListData()
     {
-         
         for (int i = 0; i < 11; i++) {
              
             final OrderModel sched = new OrderModel();
@@ -74,11 +101,5 @@ public class Kitchen extends Activity {
             /******** Take Model Object in ArrayList **********/
             CustomListViewValuesArr.add( sched );
         }
-         
     }
-	 public void onItemClick(int mPosition)
-     {
-		 CustomListViewValuesArr.remove(mPosition);
-		 adapter.notifyDataSetChanged();
-     }
 }
