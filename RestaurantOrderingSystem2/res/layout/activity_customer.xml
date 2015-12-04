@@ -62,17 +62,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
         
-        <LinearLayout 
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal" >
-            
-            <EditText 
+            android:gravity="center_horizontal|left"
+            android:orientation="horizontal" >
+
+            <EditText
                 android:id="@+id/txtSearch"
-                android:layout_width="wrap_content"
+                android:layout_width="257dp"
                 android:layout_height="wrap_content"
-                android:ems="25" />
+                android:ems="25" >
+
+                <requestFocus />
+            </EditText>
             
             <Button 
                 android:id="@+id/btnSearch"
@@ -80,6 +83,13 @@
                 android:layout_height="wrap_content"
                 android:text="Search"
                 android:onClick="search" />
+
+            <Button
+                android:id="@+id/returnData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Return"
+                android:onClick="returnData" />
             
         </LinearLayout>
         

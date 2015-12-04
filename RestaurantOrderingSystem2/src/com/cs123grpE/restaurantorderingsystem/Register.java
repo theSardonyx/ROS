@@ -1,6 +1,7 @@
 package com.cs123grpE.restaurantorderingsystem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,17 +82,39 @@ public class Register extends Activity {
 			Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
 		}
 		else {
-			// save in an arraylist (JSON in SharedPreferences)
-			/*User newUser = new User(name.getText().toString(),
-					user.getText().toString(), pass.getText().toString());
-			array.add(newUser);
-			ObjectMapper map = new ObjectMapper();
-			String json = map.writeValueAsString(array);*/
+			ParseUser currentUser = new ParseUser();
+			currentUser.setUsername(username);
+			currentUser.setPassword(password);
+			currentUser.signUpInBackground(new SignUpCallback() {
+			  public void done(ParseException e) {
+			    if (e == null) {
+			      // Hooray! Let them use the app now.
+			    } else {
+			      // Sign up didn't succeed. Look at the ParseException
+			      // to figure out what went wrong
+			    }
+			  }
+			});
 			
-			currUser.setUsername(username);
-	        currUser.setPassword(password);
-	        currUser.signUpInBackground();
-			
+			List<ParseUser> al = null;
+	        ParseObject resto = Helper.findObject("Restaurant", "rest_name", restaurant);
+	   
+	        if(resto==null) {
+	        	resto = Helper.addRestaurant(restaurant);
+	        	al = new ArrayList<ParseUser>();
+	        	resto.put("rest_name", restaurant);
+	        }
+	        else
+	        	al = resto.getList("users");
+	        resto.saveInBackground();
+	        
+	        
+	        currentUser.put("restaurant", resto);
+		    currentUser.saveInBackground(); 
+    		//al.add(currentUser);
+    		//resto.put("users", al);
+    		
+	        
 			/*SharedPreferences.Editor editor = list.edit();
 			editor.putString("nutzlich", json);
 			editor.commit();*/

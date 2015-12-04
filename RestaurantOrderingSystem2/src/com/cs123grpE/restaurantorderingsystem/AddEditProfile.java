@@ -68,7 +68,7 @@ public class AddEditProfile extends Activity {
 		EditText des = (EditText) findViewById (R.id.txtDescription);
 		des.setText((String) obj.get("item_desc"));
 		EditText tag = (EditText) findViewById (R.id.txtIngredients);
-		
+		tag.setText((String) obj.get("tag"));
 		EditText cat = (EditText) findViewById (R.id.txtCategory);
 		cat.setText( (String) ( (ParseObject) obj.get("category") ).get("category_name") );
 	}

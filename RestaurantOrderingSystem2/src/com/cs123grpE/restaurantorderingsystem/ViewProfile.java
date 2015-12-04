@@ -20,6 +20,8 @@ public class ViewProfile extends Activity {
 	String tags = "";
 	double price = 0;
 	ParseObject obj;
+	ParseObject table;
+	int tableNum;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +36,15 @@ public class ViewProfile extends Activity {
 		
 		Intent i = getIntent();
 		String name = i.getStringExtra("menu_name");
+		tableNum = i.getIntExtra("tableNum", 0);
+		table = Helper.findTable(ParseUser.getCurrentUser(), tableNum);
+		
 		obj = null;
 		try{
 			obj = (new ParseQuery("Menu_Item")).whereMatches("item_name", name).getFirst();
 			itemname = obj.getString("item_name");
 			description = obj.getString("item_desc");
-			tags = obj.getString("ingredient_name");
+			tags = obj.getString("tag");
 			price = obj.getDouble("item_price");
 		}catch(Exception e) {}
 		
@@ -83,7 +88,11 @@ public class ViewProfile extends Activity {
 		NumberPicker np = (NumberPicker) findViewById(R.id.quantity);
 		int qty = np.getValue();
 		
-		Helper.addOrder(obj, 0, qty); // change table num
+		//Helper.addOrder(table, obj, qty);
+		
+		setResult(Activity.RESULT_OK, 
+			    new Intent().putExtra("itemName", itemname).putExtra("quantity", qty).putExtra("tableNumber", tableNum));
+			finish();
 		
 		Toast.makeText(getApplicationContext(),
 			"Ordered " + qty + " " + itemname,
@@ -94,6 +103,7 @@ public class ViewProfile extends Activity {
 	
 	public void onBackPressed() {
 		// go back to the Customer screen
+		setResult(Activity.RESULT_CANCELED, new Intent().putExtra("tableNumber", tableNum));
 		finish();
 	}
 }

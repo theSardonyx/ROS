@@ -3,6 +3,7 @@ package com.cs123grpE.restaurantorderingsystem;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +38,7 @@ public class Helper {
 		for(ParseObject a: list) {
 			if(className.equals("Menu_Item") && isActive(a)) return a;
 			
-			if(className.equals("Category")) return a;
+			if(!className.equals("Menu_Item")) return a;
 		}
 		
 		return null;
@@ -49,6 +50,8 @@ public class Helper {
 		item.put("item_price", price);
 		item.put("item_desc", desc);
 		item.put("active", true);
+		parseIngredients(item, tag);
+		item.put("tag", tag);
 		
 		ParseObject obj = findObject("Category", "category_name", cat);
 		if(obj==null) obj = addCategory(cat);
@@ -62,6 +65,8 @@ public class Helper {
 		item.put("item_price", price);
 		item.put("item_desc", desc);
 		item.put("active", true);
+		parseIngredients(item, tag);
+		item.put("tag", tag);
 		
 		ParseObject obj = findObject("Category", "category_name", cat);
 		if(obj==null) obj = addCategory(cat);
@@ -77,12 +82,76 @@ public class Helper {
 		return p;
 	}
 	
-	public static void addOrder(ParseObject item, int table_num, int qty) {
+	public static void addOrder(ParseObject table, ParseObject item, int qty) {
 		ParseObject order = new ParseObject("Order");
 		order.put("item_id", item);
-		//order.put("table_id", table_num); // get pointer
 		order.put("quantity", qty);
+		order.put("table_id", table);
+		order.put("paid", false);
+		order.put("completed", false);
 		order.saveInBackground();
+	}
+	
+	public static void setOrderAttribute(ParseObject order, String key, boolean value) {
+		order.put(key, value);
+		order.saveInBackground();
+	}
+	
+	public static void parseIngredients(ParseObject item, String ingredients) {
+		String[] ingr = ingredients.split(", ");
+		ArrayList<ParseObject> al = new ArrayList<ParseObject>();
+		
+		for(String x: ingr) {
+			ParseObject p = findObject("Ingredient", "ingredient_name", x);
+			if(p==null)
+				p = addIngredient(x);
+			
+			al.add(p);
+		}
+		
+		item.put("item_ingredients", al);
+	}
+	
+	public static ParseObject addIngredient(String ingr) {
+		ParseObject p = new ParseObject("Ingredient");
+		p.put("ingredient_name", ingr);
+		p.saveInBackground();
+		return p;
+	}
+	
+	public static ParseObject addRestaurant(String rest) {
+		ParseObject p = new ParseObject("Restaurant");
+		p.put("rest_name", rest);
+		p.saveInBackground();
+		return p;
+	}
+	
+	public static ParseObject addTable(ParseUser user, int num) {
+		ParseObject p = new ParseObject("Table");
+		ParseObject rest = user.getParseObject("restaurant");
+		p.put("rest_id", rest);
+		p.put("table_id", num);
+		p.saveInBackground();
+		return p;
+	}
+	
+	public static ParseObject findTable(ParseUser user, int num) {
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Table");
+		ParseObject rest = user.getParseObject("restaurant");
+		query.whereEqualTo("rest_id", rest).whereEqualTo("table_id", num);
+				
+		List<ParseObject> list = null;
+		try {
+			list = query.find();
+		} catch(Exception e) {
+			return null;
+		}
+		
+		for(ParseObject a: list) {
+			return a;
+		}
+		
+		return null;
 	}
 	
 }

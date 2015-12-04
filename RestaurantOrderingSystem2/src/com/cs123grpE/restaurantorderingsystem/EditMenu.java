@@ -74,6 +74,7 @@ public class EditMenu extends Activity {
 	
 	public void deleteMenu (View v) {
 		// show dialog for confirmation
+		
 		Toast.makeText(this, "You will delete a Menu Item.", Toast.LENGTH_SHORT).show();
 		
 	}
@@ -197,35 +198,4 @@ public class EditMenu extends Activity {
 		prepareLists();
 	}
 	
-	/*private void prepareListData() {
-		listDataHeader = new ArrayList<String>();
-		listDataChild = new HashMap<String, List<String>>();
-
-		// Adding child data
-		listDataHeader.add("MEAT");
-		listDataHeader.add("SOUP");
-		listDataHeader.add("FISH");
-
-		// Adding child data
-		List<String> top250 = new ArrayList<String>();
-		top250.add("CRISPY PATA");
-		top250.add("ADUBA");
-		top250.add("PATAATIM");
-		top250.add("SINIGANG");
-
-		List<String> nowShowing = new ArrayList<String>();
-		nowShowing.add("CHICKEN NOODLE SOUP");
-		nowShowing.add("SINIGANG SA MISO");
-		nowShowing.add("SPINACH");
-		nowShowing.add("BIRD'S NEST");
-
-		List<String> comingSoon = new ArrayList<String>();
-		comingSoon.add("TALAKITOK");
-		comingSoon.add("PAKSIW");
-		comingSoon.add("ESCABECHE");
-
-		listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-		listDataChild.put(listDataHeader.get(1), nowShowing);
-		listDataChild.put(listDataHeader.get(2), comingSoon);
-	}*/
 }

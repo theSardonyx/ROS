@@ -1,6 +1,8 @@
 package com.cs123grpE.restaurantorderingsystem	;
 
 import java.util.ArrayList;
+import com.parse.*;
+
 
 import android.app.Activity;
 import android.content.Intent;
@@ -90,10 +92,12 @@ public class Kitchen extends Activity {
 	
 	public void setListData()
     {
+		
         for (int i = 0; i < 11; i++) {
              
             final OrderModel sched = new OrderModel();
-                 
+            
+            
               /******* Firstly take data in model object ******/
                sched.setFoodName(""+i);
                sched.setTableNumber("Table Number: "+i);
@@ -102,4 +106,9 @@ public class Kitchen extends Activity {
             CustomListViewValuesArr.add( sched );
         }
     }
+	
+	//public void prepareListData() {
+	//	ParseQuery<ParseObject> query = ParseQuery.getQuery("Order").whereMatches(key, itemName);
+		
+	//}
 }

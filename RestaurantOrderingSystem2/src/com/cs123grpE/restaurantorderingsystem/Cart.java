@@ -1,6 +1,7 @@
 package com.cs123grpE.restaurantorderingsystem;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +37,16 @@ public class Cart extends Activity {
 	
 	public void finalize (View v) {
 		// Send cart contents to kitchen and clear
+		setResult(Activity.RESULT_OK, 
+				new Intent().putExtra("finalize", true));
+		finish();
 		Toast.makeText(this, "Orders finalized.", Toast.LENGTH_SHORT).show();
+	}
+
+	
+	public void onBackPressed() {
+		setResult(Activity.RESULT_CANCELED, null);
+		finish();
 	}
 	
 }

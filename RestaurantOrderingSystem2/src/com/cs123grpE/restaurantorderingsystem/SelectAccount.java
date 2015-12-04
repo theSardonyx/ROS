@@ -55,7 +55,7 @@ public class SelectAccount extends Activity {
 	
 	public void toCustomer (View v) {
 		// go to the Customer account main screen
-		Intent i = new Intent (this, Customer.class);
+		Intent i = new Intent (this, TableChooser.class);
 		startActivity(i);
 		finish();
 	}
