@@ -83,13 +83,23 @@ public class Helper {
 	}
 	
 	public static void addOrder(ParseObject table, ParseObject item, int qty) {
-		ParseObject order = new ParseObject("Order");
+		ParseObject order = new ParseObject("Item_Order");
 		order.put("item_id", item);
+		order.put("item_name", item.getString("item_name"));
 		order.put("quantity", qty);
 		order.put("table_id", table);
+		order.put("table_no", table.getInt("table_id"));
 		order.put("paid", false);
 		order.put("completed", false);
-		order.saveInBackground();
+		order.saveInBackground(new SaveCallback() {
+			   public void done(ParseException e) {
+			     if (e == null) {
+			      // myObjectSavedSuccessfully();
+			     } else {
+			       //myObjectSaveDidNotSucceed();
+			     }
+			   }
+			 });
 	}
 	
 	public static void setOrderAttribute(ParseObject order, String key, boolean value) {
@@ -128,8 +138,8 @@ public class Helper {
 	
 	public static ParseObject addTable(ParseUser user, int num) {
 		ParseObject p = new ParseObject("Table");
-		ParseObject rest = user.getParseObject("restaurant");
-		p.put("rest_id", rest);
+		//ParseObject rest = user.getParseObject("restaurant");
+		//p.put("rest_id", rest);
 		p.put("table_id", num);
 		p.saveInBackground();
 		return p;
@@ -137,8 +147,9 @@ public class Helper {
 	
 	public static ParseObject findTable(ParseUser user, int num) {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Table");
-		ParseObject rest = user.getParseObject("restaurant");
-		query.whereEqualTo("rest_id", rest).whereEqualTo("table_id", num);
+		//ParseObject rest = user.getParseObject("restaurant");
+		//query.whereEqualTo("rest_id", rest).whereEqualTo("table_id", num);
+		query.whereEqualTo("table_id", num);
 				
 		List<ParseObject> list = null;
 		try {
@@ -154,4 +165,15 @@ public class Helper {
 		return null;
 	}
 	
+	public static List<ParseObject> getQueue() {
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Item_Order").whereEqualTo("completed", false);
+		List<ParseObject> list = null;
+		try {
+			list = query.find();
+		} catch(Exception e) {
+			return null;
+		}
+		
+		return list;
+	}
 }
