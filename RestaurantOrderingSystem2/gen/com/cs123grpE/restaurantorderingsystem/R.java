@@ -29,7 +29,8 @@ public final class R {
         public static final int prelimlogo=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f080040;
+        public static final int aaa=0x7f08003e;
+        public static final int action_settings=0x7f080042;
         public static final int btnAddMenu=0x7f08001c;
         public static final int btnAddToCart=0x7f08003c;
         public static final int btnAdmin=0x7f08002f;
@@ -62,13 +63,14 @@ public final class R {
         public static final int listview1=0x7f080013;
         public static final int logo=0x7f080007;
         public static final int logout=0x7f080032;
+        public static final int nameF=0x7f08003d;
+        public static final int price=0x7f08003f;
         public static final int priceName=0x7f080036;
         public static final int quantity=0x7f08003b;
         public static final int returnData=0x7f080016;
-        public static final int tableName=0x7f08003e;
         public static final int tableNum=0x7f080033;
-        public static final int textView00=0x7f08003d;
-        public static final int textView01=0x7f08003f;
+        public static final int textView00=0x7f080040;
+        public static final int textView01=0x7f080041;
         public static final int textView1=0x7f08001e;
         public static final int textView2=0x7f080020;
         public static final int textView3=0x7f08002e;
@@ -110,9 +112,10 @@ public final class R {
         public static final int activity_settings=0x7f03000b;
         public static final int activity_table_chooser=0x7f03000c;
         public static final int activity_view_profile=0x7f03000d;
-        public static final int group=0x7f03000e;
-        public static final int menu_item=0x7f03000f;
-        public static final int row=0x7f030010;
+        public static final int cart_item=0x7f03000e;
+        public static final int group=0x7f03000f;
+        public static final int menu_item=0x7f030010;
+        public static final int row=0x7f030011;
     }
     public static final class menu {
         public static final int add_edit_profile=0x7f070000;

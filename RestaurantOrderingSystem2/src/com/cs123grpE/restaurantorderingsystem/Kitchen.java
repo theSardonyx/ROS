@@ -1,6 +1,8 @@
 package com.cs123grpE.restaurantorderingsystem	;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import com.parse.*;
 
 
@@ -93,14 +95,17 @@ public class Kitchen extends Activity {
 	public void setListData()
     {
 		
-        for (int i = 0; i < 11; i++) {
+		List<ParseObject> queue = Helper.getQueue();
+		
+        for (int i = 0; i < queue.size(); i++) {
              
             final OrderModel sched = new OrderModel();
             
-            
+            	ParseObject obj = queue.get(i);
               /******* Firstly take data in model object ******/
-               sched.setFoodName(""+i);
-               sched.setTableNumber("Table Number: "+i);
+            	//ParseObject item = obj.getParseObject("item_id");
+               sched.setFoodName(obj.getString("item_name") + " " + obj.getInt("quantity"));
+               sched.setTableNumber("Table Number: "+ obj.getInt("table_no"));
                 
             /******** Take Model Object in ArrayList **********/
             CustomListViewValuesArr.add( sched );
