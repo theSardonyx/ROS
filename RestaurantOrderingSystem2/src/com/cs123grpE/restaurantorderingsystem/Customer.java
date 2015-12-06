@@ -47,15 +47,19 @@ public class Customer extends Activity {
 		Intent i = getIntent();
 		tableNum = i.getIntExtra("tableNumber", 0);
 		
-		//ParseUser pu = ParseUser.getCurrentUser();
-		
-		table = Helper.findTable(null, tableNum);
+		ParseUser pu = ParseUser.getCurrentUser();
+		if (pu == null) {
+			Log.i("help", "null pls");
+		}
+		table = Helper.findTable(pu, tableNum);
 		if(table==null) {
-			table = Helper.addTable(null, tableNum);
+			table = Helper.addTable(pu, tableNum);
 		}
 		
 		prepareLists();
 		cart = new HashMap<String, Integer>();
+		
+		//generateMenu("", true);
 		
 		ListView lv = (ListView)findViewById(R.id.listview1);
 		lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu));
@@ -157,10 +161,6 @@ public class Customer extends Activity {
 	public void viewCart (View v) {
 		// go to cart screen
 		Intent i = new Intent (this, Cart.class);
-		
-		ArrayList<String> items = new ArrayList<String>();
-		
-		
 		startActivityForResult (i, 2);
 	}
 	
@@ -226,7 +226,7 @@ public class Customer extends Activity {
 				
 				Intent i = new Intent(getApplicationContext(), ViewProfile.class);
 					i.putExtra("menu_name", name);
-					startActivityForResult(i, 1);
+					startActivity(i);
 				
 				Toast.makeText(getApplicationContext(),
 					listDataHeader.get(groupPosition)
@@ -345,7 +345,7 @@ public class Customer extends Activity {
 				
 				ParseObject obj = Helper.findObject("Menu_Item", "item_name", "Sinigang");
 		    	Log.i("ParseObject", obj.getString("item_name"));
-		    	ParseObject order = new ParseObject("Item_Order");
+		    	ParseObject order = new ParseObject("Order");
 				order.put("item_id", obj);
 				order.put("quantity", 3);
 				order.put("table_id", table);
@@ -403,15 +403,11 @@ public class Customer extends Activity {
 	    if(resultCode==RESULT_OK && requestCode==1){
 	        System.out.println("RESULT :D");
 	    }
-	 
 	    
 	    if(requestCode==1) {
 	    	String key = data.getStringExtra("itemName");
-	    	int value = data.getIntExtra("quantity", 0);
+	    	int value = data.getIntExtra("qty", 0);
 	    	cart.put(key, value);
-	    	ParseObject obj = Helper.findObject("Menu_Item", "item_name", key);
-		    
-	    	Helper.addOrder(table, obj, value);
 	    }
 	    else if(requestCode==2 && data.getBooleanExtra("finalize", false)) {
 	    	for(Map.Entry<String, Integer> me: cart.entrySet()) {
