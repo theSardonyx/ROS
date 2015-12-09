@@ -117,6 +117,8 @@ public class Helper {
 				p = addIngredient(x);
 			
 			al.add(p);
+			
+			//List<ParseObject> list = p.getList(")
 		}
 		
 		item.put("item_ingredients", al);

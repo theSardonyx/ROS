@@ -21,6 +21,11 @@ public class Cart extends Activity {
 
 	ListView lv;
 	TextView rn;
+	
+	ArrayList<String> cartName;
+    ArrayList<Integer> cartQty;
+    ArrayList<Double> cartPrice;
+    
     public double total = 0;
 	public ArrayList<CartItem> cartitems = new ArrayList<CartItem>();
 	@Override
@@ -28,13 +33,19 @@ public class Cart extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cart);
 		
+		 ArrayList<Double> cartPrice = new ArrayList<Double>();
+		    
+		Intent i = getIntent();
+		cartName = i.getStringArrayListExtra("cartName");
+		cartQty = i.getIntegerArrayListExtra("cartQty");
+		
 		getData();
 		
 		lv = (ListView)findViewById(R.id.listCart);
 		rn = (TextView)findViewById(R.id.totesPrice);
 		rn.setText(Double.toString(total));
 		@SuppressWarnings("unchecked")
-        final ArrayAdapter<OrderModel> adapter = new ArrayAdapter(getBaseContext(), R.layout.cart_item, android.R.id.text1, cartitems) {
+        final ArrayAdapter<OrderModel> adapter = new ArrayAdapter(getBaseContext(), R.layout.cart_item, R.id.nameF, cartitems) {
        	  @Override
        	  public View getView(int position, View convertView, ViewGroup parent) {
        	    View view = super.getView(position, convertView, parent);
@@ -89,19 +100,19 @@ public class Cart extends Activity {
 	
 	public void getData(){
 		
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < cartName.size(); i++) {
              
             final CartItem sched = new CartItem();
             
             	//ParseObject obj = queue.get(i);
               /******* Firstly take data in model object ******/
             	//ParseObject item = obj.getParseObject("item_id");
-               sched.setFoodname("SINIGANG");
-               int qty = 2;
-               sched.setQuantity(qty);
-               double orgprice = 100;
-               sched.setPrice(orgprice);
-               total += (qty * orgprice);
+               sched.setFoodname(cartName.get(i));
+               sched.setQuantity(cartQty.get(i));
+               
+               ParseObject obj = Helper.findObject("Menu_Item", "item_name", cartName.get(i));
+               sched.setPrice(obj.getDouble("item_price")*cartQty.get(i));
+               total += (cartQty.get(i) * obj.getDouble("item_price"));
                 
             /******** Take Model Object in ArrayList **********/
             cartitems.add( sched );

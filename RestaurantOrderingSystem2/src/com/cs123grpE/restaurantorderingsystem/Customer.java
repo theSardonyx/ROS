@@ -37,7 +37,8 @@ public class Customer extends Activity {
     HashMap<String, List<ParseObject>> listDataChildObject;
     int tableNum;
     ParseObject table;
-    HashMap<String, Integer> cart;
+    ArrayList<String> cartName;
+    ArrayList<Integer> cartQty;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,8 @@ public class Customer extends Activity {
 		}
 		
 		prepareLists();
-		cart = new HashMap<String, Integer>();
+		cartName = new ArrayList<String>();
+		cartQty = new ArrayList<Integer>();
 		
 		ListView lv = (ListView)findViewById(R.id.listview1);
 		lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menu));
@@ -157,7 +159,8 @@ public class Customer extends Activity {
 	public void viewCart (View v) {
 		// go to cart screen
 		Intent i = new Intent (this, Cart.class);
-		
+		i.putStringArrayListExtra("cartName", cartName);
+		i.putIntegerArrayListExtra("cartQty", cartQty);
 		ArrayList<String> items = new ArrayList<String>();
 		
 		
@@ -405,22 +408,23 @@ public class Customer extends Activity {
 	    }
 	 
 	    
-	    if(requestCode==1) {
+	    if(requestCode==1 && resultCode==RESULT_OK) {
 	    	String key = data.getStringExtra("itemName");
 	    	int value = data.getIntExtra("quantity", 0);
-	    	cart.put(key, value);
-	    	ParseObject obj = Helper.findObject("Menu_Item", "item_name", key);
-		    
-	    	Helper.addOrder(table, obj, value);
+	    	cartName.add(key);
+	    	cartQty.add(value);
+	    	//ParseObject obj = Helper.findObject("Menu_Item", "item_name", key);
+	    	//Helper.addOrder(table, obj, value);
 	    }
-	    else if(requestCode==2 && data.getBooleanExtra("finalize", false)) {
-	    	for(Map.Entry<String, Integer> me: cart.entrySet()) {
-	    		String key = me.getKey();
-	    		int value = me.getValue();
+	    else if(requestCode==2 && resultCode==RESULT_OK && data.getBooleanExtra("finalize", false)) {
+	    	for(int i = 0; i < cartName.size(); i++) {
+	    		String key = cartName.get(i);
+	    		int value = cartQty.get(i);
 	    		ParseObject obj = Helper.findObject("Menu_Item", "item_name", key);
 			    Helper.addOrder(table, obj, value);
 	    	}
-	    	cart.clear();
+	    	cartName.clear();
+	    	cartQty.clear();
 	    }
 		prepareLists();
 	}
